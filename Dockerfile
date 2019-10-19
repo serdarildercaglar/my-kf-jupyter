@@ -4,7 +4,8 @@ FROM $BASE_CONTAINER
 LABEL maintainer="myemail@email.com"
 LABEL version="01"
 
-RUN pip install -e git://github.com/andrewm4894/my_utils.git#egg=my_utils
+#RUN pip install git://github.com/andrewm4894/my_utils.git#egg=my_utils
+RUN pip install git+https://github.com/andrewm4894/my_utils.git#egg=my_utils
 
 ENV NB_PREFIX /
 
