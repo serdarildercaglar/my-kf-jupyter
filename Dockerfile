@@ -1,10 +1,9 @@
 ARG BASE_CONTAINER=gcr.io/kubeflow-images-public/tensorflow-1.13.1-notebook-cpu:v0.5.0
 FROM $BASE_CONTAINER
 
-LABEL maintainer="myemail@email.com"
+LABEL maintainer="andrewm4894@gmail.com"
 LABEL version="01"
 
-#RUN pip install git://github.com/andrewm4894/my_utils.git#egg=my_utils
 RUN pip install git+https://github.com/andrewm4894/my_utils.git#egg=my_utils
 
 ENV NB_PREFIX /
