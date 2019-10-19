@@ -4,7 +4,7 @@ FROM $BASE_CONTAINER
 LABEL maintainer="andrewm4894@gmail.com"
 LABEL version="01"
 
-RUN pip install git+https://github.com/andrewm4894/my_utils.git#egg=my_utils
+RUN pip3 install git+https://github.com/andrewm4894/my_utils.git#egg=my_utils
 
 ENV NB_PREFIX /
 
