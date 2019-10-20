@@ -1,3 +1,4 @@
+ARG GITHUB_TOKEN
 ARG BASE_CONTAINER=gcr.io/kubeflow-images-public/tensorflow-1.13.1-notebook-cpu:v0.5.0
 FROM $BASE_CONTAINER
 
@@ -7,6 +8,8 @@ LABEL version="01"
 RUN pip3 install git+https://github.com/andrewm4894/my_utils.git#egg=my_utils
 
 RUN pip3 install kfp --upgrade
+
+RUN git clone https://${GITHUB_TOKEN}@github.com/andrewm4894/my-kf-notebooks.git
 
 ENV NB_PREFIX /
 
