@@ -12,3 +12,6 @@ docker tag my-kf-jupyter andrewm4894/my-kf-jupyter:latest
 ```
 docker push andrewm4894/my-kf-jupyter:latest
 ```
+
+### docker run with jupyter
+```docker run -p 8888:8888 jupyter/minimal-notebook```
