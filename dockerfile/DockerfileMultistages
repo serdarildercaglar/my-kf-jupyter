@@ -1,0 +1,52 @@
+# Stage 1: Builder/Compiler
+FROM nvidia/cuda:11.4.0-cudnn8-runtime-ubuntu20.04 AS builder
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository universe
+RUN apt-get install -y python3-pip
+RUN apt install python3.8-venv
+RUN python3 -m pip install virtualenv 
+RUN python3 -m venv /opt/venv
+# Make sure we use the virtualenv:
+ENV PATH="/opt/venv/bin:$PATH"
+
+# RUN pip install --no-cache-dir --upgrade pip && pip install
+
+COPY requirements.txt ./
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install optimum[onnxruntime-gpu]==1.5.0
+RUN python3 -m pip install protobuf==3.19.6
+RUN python3 -m pip install google-api-core==2.10.2
+RUN python3 -m pip install onnxruntime-gpu==1.12 
+RUN pip install -r requirements.txt 
+RUN python3 -m pip install --upgrade requests
+RUN pip install urllib3==1.25.11
+# Install Jupyter Notebook
+RUN pip install --no-cache-dir jupyterlab
+
+
+
+# COPY ./nltk_data /root/nltk_data
+# COPY ./  ./
+# EXPOSE 8080
+# CMD ["python3", "kserve-text-cls.py"]
+
+
+
+# Stage 2: Runtime
+FROM nvidia/cuda:11.4.0-cudnn8-runtime-ubuntu20.04
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository universe
+RUN apt-get install -y python3-pip
+RUN apt install python3.8-venv
+RUN python3 -m pip install virtualenv 
+RUN python3 -m venv /opt/venv
+# Copy the virtualenv from the builder stage:
+COPY --from=builder /opt/venv /opt/venv
+# Make sure we use the virtualenv:
+ENV PATH="/opt/venv/bin:$PATH"
+ENV NB_PREFIX /
+
+USER root
+
+CMD ["sh","-c", "jupyter lab --notebook-dir=/home/jovyan --ip=0.0.0.0 --no-browser --allow-root --port=8888 --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --NotebookApp.base_url=${NB_PREFIX}"]
+

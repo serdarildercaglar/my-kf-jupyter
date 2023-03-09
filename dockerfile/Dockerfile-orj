@@ -1,0 +1,20 @@
+FROM nvidia/cuda:11.4.0-cudnn8-runtime-ubuntu20.04
+
+# RUN pip install --no-cache-dir --upgrade pip && pip install
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository universe
+RUN apt-get install -y python3-pip
+COPY requirements.txt ./
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install optimum[onnxruntime-gpu]==1.5.0
+RUN python3 -m pip install protobuf==3.19.6
+RUN python3 -m pip install google-api-core==2.10.2
+RUN python3 -m pip install onnxruntime-gpu==1.12 
+RUN pip install -r requirements.txt 
+RUN python3 -m pip install --upgrade requests
+RUN pip install urllib3==1.25.11
+# COPY ./nltk_data /root/nltk_data
+# COPY ./  ./
+# EXPOSE 8080
+# CMD ["python3", "kserve-text-cls.py"]
+

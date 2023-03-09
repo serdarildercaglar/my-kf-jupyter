@@ -1,0 +1,11 @@
+FROM serdarildercaglar/kubeflow-onnxruntime-gpu:cuda-11-4-0-cudnn-8-ubuntu20
+
+# Install Jupyter Notebook
+RUN pip install --no-cache-dir jupyterlab
+
+
+ENV NB_PREFIX /
+
+USER root
+
+CMD ["sh","-c", "jupyter lab --notebook-dir=/home/jovyan --ip=0.0.0.0 --no-browser --allow-root --port=8888 --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --NotebookApp.base_url=${NB_PREFIX}"]
